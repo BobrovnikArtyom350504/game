@@ -9,11 +9,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ByPort/unnamed-ultimate-rpg.git"
+    "url": "git+https://github.com/BobrovnikArtyom350504/game.git"
   },
   "license": "WTFPL",
   "bugs": {
-    "url": "https://github.com/ByPort/unnamed-ultimate-rpg/issues"
+    "url": "https://github.com/BobrovnikArtyom350504/game/issues"
   },
   "devDependencies": {
     "babel-core": "^6.22.1",
