@@ -12,6 +12,7 @@ module.exports = {
     resolve: {
         extentions: ['', '.js', '.jsx']
     },
+    devtool: '#cheap-module-source-map',
     module: {
         loaders: [
             {
@@ -34,6 +35,11 @@ module.exports = {
                 test: /\.css$/,
                 exclude: /node_modules/,
                 loader: ExtractTextPlugin.extract('style-loader', 'css-loader')
+            },
+            {
+                test: /\.scss/,
+                exclude: /node_modules/,
+                loader: ExtractTextPlugin.extract('style-loader', 'css-loader!resolve-url!sass-loader?sourceMap')
             }
 	]
     },

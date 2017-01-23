@@ -19,21 +19,6 @@ export default class Model {
             writeable: false,
             configurable: false
         });
-
-        for (let prop in this.constructor.image) {
-            Object.defineProperty(this, prop, {
-                get: () => {
-                    return this.constructor.table.findWhere({
-                        id: this.id
-                    })[prop];
-                },
-                set: (value) => {
-                    let row = {id: this.id};
-                    row[prop] = value;
-                    this.constructor.table.update(row, 'id');
-                }
-            });
-        }
     }
 
     static all() {
@@ -68,5 +53,20 @@ export default class Model {
             writeable: false,
             configurable: false
         });
+
+        for (let prop in image) {
+            Object.defineProperty(this.prototype, prop, {
+                get: function() {
+                    return this.constructor.table.findWhere({
+                        id: this.id
+                    })[prop];
+                },
+                set: function(value) {
+                    let row = {id: this.id};
+                    row[prop] = value;
+                    this.constructor.table.update(row, 'id');
+                }
+            });
+        }
     }
 }
