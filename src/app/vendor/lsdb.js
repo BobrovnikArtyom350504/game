@@ -1,3 +1,5 @@
+// Source: https://www.npmjs.com/package/lsdb
+
 /// <reference path="ts-definitions/DefinitelyTyped/underscore/underscore.d.ts" />
 
 var _ = require('underscore');
@@ -57,14 +59,19 @@ var Table = (function () {
     * @param defaultUniqueKey - the default unique key to use for updates
     * @param backend - the storage connector
     */
-    function Table(name, defaultUniqueKey, backend) {
-        if (typeof defaultUniqueKey === "undefined") { defaultUniqueKey = 'id'; }
+    function Table(name, defaultUniqueKey, backend, isUniqueKeyEnumerable) {
+        if (typeof isUniqueKeyEnumerable === "undefined") { isUniqueKeyEnumerable = false; }
+        if (typeof defaultUniqueKey === "undefined") {
+            defaultUniqueKey = 'id';
+            isUniqueKeyEnumerable = true;
+        }
         if (typeof backend === "undefined") { backend = new Store.LocalStorage(); }
         this._name = name;
         this._defaultUniqueKey = defaultUniqueKey;
         this.backend = backend;
         this.loadData();
-        this._lastId = this._rows.length - 1;
+        this._isUniqueKeyEnumerable = isUniqueKeyEnumerable;
+        if (isUniqueKeyEnumerable) this._last = this._rows.length - 1;
     }
     /**
     * Start a query.  Returns a chainable underscore object to complete query
@@ -109,8 +116,8 @@ var Table = (function () {
     */
     Table.prototype.insert = function (row) {
         var toInsert = this.deepClone(row);
-        if (!(this._defaultUniqueKey in toInsert)) toInsert[this._defaultUniqueKey] = ++this._lastId;
-        else throw new Error('Use update pls.');
+        if (!(this._defaultUniqueKey in toInsert) && this._isUniqueKeyEnumerable) toInsert[this._defaultUniqueKey] = ++this._last;
+        else throw new Error('No.');
         this._rows.push(toInsert);
         return this.save();
     };
@@ -123,8 +130,8 @@ var Table = (function () {
     Table.prototype.insertBatch = function (rows) {
         var toInsert = this.deepClone(rows);
         for (let row of toInsert)
-            if (!(this._defaultUniqueKey in row)) row[this._defaultUniqueKey] = ++this._lastId;
-            else throw new Error('Use updateBatch pls.');
+            if (!(this._defaultUniqueKey in row) && this._isUniqueKeyEnumerable) row[this._defaultUniqueKey] = ++this._last;
+            else throw new Error('No.');
         this._rows = this._rows.concat(toInsert);
         return this.save();
     };

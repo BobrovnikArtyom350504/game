@@ -4,18 +4,18 @@ import LSDB from '../vendor/lsdb.js';
 import $ from 'jquery';
 
 export default class Model {
-    constructor(id) {
-        if (typeof(id) !== 'undefined') {
-            if (typeof(this.constructor.table.findWhere({id: id})) === 'undefined') throw new Error('No model with same id.');
-        } else {
+    constructor(props, name) {
+        if (typeof(name) !== 'undefined') {
+            if (typeof(this.constructor.table.findWhere({this.constructor.table._defaultUniqueKey: name})) === 'undefined') throw new Error('No model with same id or name.');
+        } else if (this.constructor.table._isUniqueKeyEnumerable) {
             this.constructor.table.insert(
-                Object.assign({}, this.constructor.image)
+                Object.assign({}, this.constructor.image, props)
             );
-            id = this.constructor.table._lastId;
-        }
+            name = this.constructor.table._last;
+        } else throw new Error('Name isnt enumerable pls set name.');
 
-        Object.defineProperty(this, 'id', {
-            value: id,
+        Object.defineProperty(this, this.constructor.table._defaultUniqueKey, {
+            value: name,
             writeable: false,
             configurable: false
         });
@@ -37,6 +37,12 @@ export default class Model {
                 return new this(row.id);
             }
         );
+    }
+
+    static defineClass(tableName, image, decoratedClass=class extends Model{}) {
+        decoratedClass.setTable(tableName);
+        decoratedClass.setImage(image);
+        return decoratedClass;
     }
 
     static setTable(name) {
