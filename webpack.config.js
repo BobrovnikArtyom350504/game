@@ -1,15 +1,19 @@
 const HtmlPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const path = require('path');
 
 module.exports = {
     entry: {
-        app: './src/app/main.js'
+        game: './src/game/main.js'
     },
     output: {
-        path: './bin',
-        filename: '[name].bundle.js',
+        path: './dist',
+        filename: '[name].[hash].bundle.js',
     },
     resolve: {
+        root: [
+            path.resolve('./src')
+        ],
         extentions: ['', '.js', '.jsx']
     },
     devtool: '#cheap-module-source-map',
