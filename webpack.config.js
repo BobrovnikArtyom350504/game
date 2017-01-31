@@ -4,11 +4,11 @@ const path = require('path');
 
 module.exports = {
     entry: {
-        game: './src/game/main.js'
+        game: './src/index.js'
     },
     output: {
         path: './dist',
-        filename: '[name].[hash].bundle.js',
+        filename: '[name].bundle.js',
     },
     resolve: {
         root: [
@@ -32,7 +32,8 @@ module.exports = {
                 exclude: /node_modules/,
                 loader: 'babel-loader',
                 query: {
-                    presets: ['es2015', 'react', 'stage-0']
+                    plugins: ['transform-decorators-legacy'],
+                    presets: ['es2015', 'stage-0', 'react']
                 }
             },
             {
@@ -49,8 +50,6 @@ module.exports = {
     },
     plugins: [
         new ExtractTextPlugin('styles.bundle.css', { allChunks: true }),
-        new HtmlPlugin(/*{
-            template: './src/index.html'
-        }*/)
+        new HtmlPlugin({ template: './src/index.html' })
     ]
  };
