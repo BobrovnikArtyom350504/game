@@ -4,7 +4,7 @@ const path = require('path');
 
 module.exports = {
     entry: {
-        game: './src/game/main.js'
+        game: './src/game/index.js'
     },
     output: {
         path: './dist',
@@ -14,7 +14,7 @@ module.exports = {
         root: [
             path.resolve('./src')
         ],
-        extentions: ['', '.js', '.jsx']
+        extentions: ['', '.js']
     },
     devtool: '#cheap-module-source-map',
     module: {
@@ -25,14 +25,6 @@ module.exports = {
                 loader: 'babel-loader',
                 query: {
                     presets: ['es2015']
-                }
-            },
-            {
-                test: /\.jsx$/,
-                exclude: /node_modules/,
-                loader: 'babel-loader',
-                query: {
-                    presets: ['es2015', 'react', 'stage-0']
                 }
             },
             {
