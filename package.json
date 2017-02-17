@@ -2,8 +2,9 @@
   "name": "game",
   "description": "game",
   "version": "0.0.0",
-  "private": false,
+  "private": true,
   "scripts": {
+    "hot": "webpack-dev-server --inline --hot",
     "start": "webpack-dev-server --inline --hot",
     "webpack": "webpack"
   },
