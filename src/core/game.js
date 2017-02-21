@@ -1,3 +1,7 @@
+import $ from 'jquery';
+
+
+
 export default class Game {
     constructor(root, scenes) {
         this.root = root;
@@ -12,6 +16,7 @@ export default class Game {
 
     start(initialScene) {
         this.sceneStack.push(initialScene);
+        $(this.scenes[this.lastScene].constructor.view).appendTo(this.root);
         this.scenes[initialScene].start();
         this.timer = setInterval(this.update.bind(this), 500);
     }
@@ -28,26 +33,35 @@ export default class Game {
     }
 
     changeScene(sceneClass) {
+        $(this.scenes[this.lastScene].constructor.view).detach();
         this.scenes[this.sceneStack.pop()].stop();
         this.sceneStack.push(sceneClass);
+        $(this.scenes[this.lastScene].constructor.view).appendTo(this.root);
         this.scenes[sceneClass].start();
     }
 
     pushScene(sceneClass) {
+        $(this.scenes[this.lastScene].constructor.view).detach();
         this.scenes[this.lastScene].pause();
         this.sceneStack.push(sceneClass);
+        $(this.scenes[this.lastScene].constructor.view).appendTo(this.root);
         this.scenes[sceneClass].start();
     }
 
     popScene() {
+        $(this.scenes[this.lastScene].constructor.view).detach();
         this.scenes[this.sceneStack.pop()].stop();
+        $(this.scenes[this.lastScene].constructor.view).appendTo(this.root);
         this.scenes[this.lastScene].resume();
     }
 
     resetSceneStack(sceneClass) {
-        while (this.sceneStack.length > 0)
+        while (this.sceneStack.length > 0) {
+            $(this.scenes[this.lastScene].constructor.view).detach();
             this.scenes[this.sceneStack.pop()].stop();
+        }
         this.sceneStack.push(sceneClass);
+        $(this.scenes[this.lastScene].constructor.view).appendTo(this.root);
         this.scenes[sceneClass].start();
     }
 

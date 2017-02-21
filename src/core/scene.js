@@ -1,5 +1,8 @@
+export const view = (vw) => (scene) => { scene.view = vw; return scene; };
+
 export default class Scene {
     constructor(root) {
+        this.root = root;
         this.entities = [];
     }
 

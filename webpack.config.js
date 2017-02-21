@@ -24,8 +24,14 @@ module.exports = {
                 exclude: /node_modules/,
                 loader: 'babel-loader',
                 query: {
+                    plugins: ['transform-decorators-legacy'],
                     presets: ['es2015']
                 }
+            },
+            {
+                test: /\.html$/,
+                exclude: /node_modules/,
+                loader: 'html-loader'
             },
             {
                 test: /\.css$/,

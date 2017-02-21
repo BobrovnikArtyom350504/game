@@ -1,17 +1,22 @@
 export default class Entity {
-    constructor(components = []) {
+    constructor(...components) {
         this.components = {};
         for (let component of components)
             this.addComponent(component);
     }
 
     addComponent(component) {
-        if (typeof component == 'function') component = new component(this.components);
-        this.components[component.constructor] = component;
+        if (typeof component == 'function') component = new component(this);
+        this.components[component.constructor.name] = component;
     }
 
     deleteComponent(componentClass) {
-        delete this.components[componentClass];
+        this.components[componentClass.name].destroy();
+        delete this.components[componentClass.name];
+    }
+
+    findComponentOf(baseClass) {
+        return Object.values(this.components).find(component => component instanceof baseClass);
     }
 
     create() {

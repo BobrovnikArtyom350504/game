@@ -1,6 +1,6 @@
 export default class Component {
-    constructor(components = {}) {
-        this.components = components;
+    constructor(entity) {
+        this.entity = entity;
     }
 
     create() {}
