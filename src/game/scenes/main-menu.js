@@ -2,7 +2,7 @@ import $ from 'jquery';
 
 import { Scene, Entity, Component, view } from 'core';
 
-import { GameScene } from 'game/scenes';
+import { DayScene } from 'game/scenes';
 
 
 
@@ -14,7 +14,7 @@ class MainMenuScene extends Scene {
                 const scene = this;
                 return class extends Component {
                     play() {
-                        window.game.changeScene(GameScene);
+                        window.game.changeScene(DayScene);
                     }
                     create() {
                         scene.constructor.view.find('[data-action=play]').on('click', this.play);

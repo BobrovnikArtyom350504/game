@@ -4,13 +4,13 @@ export default class Record {
         this.name = name;
 
         if (!localStorage.getItem(this.tableName))
-            localStorage.setItem(this.tableName,{});
+            localStorage.setItem(this.tableName,JSON.stringify({}));
         //TODO: отрабатывает не один раз, можно сделать темплейт на класс по tableName
     }
 
     createOrUpdate(data) {
         let rows = JSON.parse(localStorage.getItem(this.tableName));
-        let row = {...rows[this.name], ...data};
+        let row = Object.assign({}, rows[this.name], data);//{...rows[this.name], ...data};
         rows[this.name] = row;
         localStorage.setItem(this.tableName, JSON.stringify(rows));
     }

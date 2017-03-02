@@ -1,7 +1,7 @@
 import Game from 'core/game';
 
-import { MainMenuScene, GameScene } from 'game/scenes';
+import { MainMenuScene, DayScene } from 'game/scenes';
 
 
 
-(window.game = new Game('body', [MainMenuScene, GameScene])).start(MainMenuScene);
+(window.game = new Game('body', [MainMenuScene, DayScene])).start(MainMenuScene);

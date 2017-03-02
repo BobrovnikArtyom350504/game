@@ -9,7 +9,7 @@ export default class Model extends Component {
         this.record = new Record(tableName, name);
         if(this.record.isEmpty())
             this.record.createOrUpdate(initState);
-        let row = record.read();
+        let row = this.record.read();
         this.propsForSave = [];
         for (let prop in row) {
             this[prop] = row[prop];
